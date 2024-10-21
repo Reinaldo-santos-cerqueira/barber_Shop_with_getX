@@ -46,7 +46,7 @@ class PreLoginScreen extends GetView<PreLoginController> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 30.0),
+                    padding: EdgeInsets.only(left: getSize(context).width * .1,bottom: 30.0, right: getSize(context).width * .1,),
                     child: Button(
                       onPressedFunction: () => controller.goLogin(),
                       textBtn: controller.textBtnLogin.value,
@@ -54,7 +54,7 @@ class PreLoginScreen extends GetView<PreLoginController> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 50.0),
+                    padding: EdgeInsets.only(left: getSize(context).width * .1,bottom: 50.0, right: getSize(context).width * .1,),
                     child: Button(
                       onPressedFunction: () => controller.goSignUp(),
                       textBtn: controller.textBtnSignUp.value,
