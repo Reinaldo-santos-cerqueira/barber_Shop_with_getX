@@ -5,6 +5,6 @@ Future<String> translateFunction(String textOriginal) async{
   final box = GetStorage();
   final translator = GoogleTranslator();
 
-  var translateText = await translator.translate(textOriginal,from: 'en',to:box.read('language'));
+  var translateText = await translator.translate(textOriginal,from: 'auto',to:box.read('language'));
   return translateText.toString();
 }
