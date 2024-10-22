@@ -1,7 +1,7 @@
 import 'package:app_barber_shop/utils/translate_function.dart';
 import 'package:get/get.dart';
 
-class LoginController extends GetxController  {
+class LoginController extends GetxController {
   final textBtnLogin = "login".obs;
   final textBtnSignUp = "sign up".obs;
   final textProblem = "Problemas com login?".obs;
@@ -10,6 +10,7 @@ class LoginController extends GetxController  {
   final placeHolderPassword = "Digite seu senha".obs;
   final textOr = "or".obs;
   final seePassword = false.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();

@@ -20,7 +20,6 @@ class SplashController extends GetxController {
     String? language = currentLocale?.languageCode.toString();
     final box = GetStorage();
 
-
     box.write('language', language);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:app_barber_shop/utils/translate_function.dart';
 import 'package:get/get.dart';
 
-class PreLoginController extends GetxController  {
+class PreLoginController extends GetxController {
   final textBtnLogin = "Login".obs;
   late var textBtnSignUp = "Sign Up".obs;
 
@@ -12,11 +12,11 @@ class PreLoginController extends GetxController  {
     textBtnLogin(await translateFunction(textBtnLogin.value));
   }
 
-  void goLogin(){
+  void goLogin() {
     Get.toNamed('/login');
   }
 
-  void goSignUp(){
+  void goSignUp() {
     Get.toNamed('/signUp');
   }
 }
