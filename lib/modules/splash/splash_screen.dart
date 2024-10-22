@@ -15,11 +15,16 @@ class SplashScreen extends GetView<SplashController> {
         children: [
           Expanded(
             child: Center(
-              child: Image.asset('assets/images/logo.png',width: 250,),
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 250,
+              ),
             ),
           ),
-          LoadingAnimationWidget.stretchedDots(color: Colors.black,size: 50),
-          const SizedBox(height: 50,)
+          LoadingAnimationWidget.stretchedDots(color: Colors.black, size: 50),
+          const SizedBox(
+            height: 50,
+          )
         ],
       ),
     );
