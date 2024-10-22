@@ -9,6 +9,7 @@ class PreLoginScreen extends GetView<PreLoginController> {
 
   @override
   Widget build(BuildContext context) {
+    var getSize =  GetSize().sizeScreen(context);
     return Obx(() {
       return Scaffold(
         body: Container(
@@ -19,7 +20,7 @@ class PreLoginScreen extends GetView<PreLoginController> {
                 alignment: Alignment.topRight),
           ),
           child: Container(
-            width: getSize(context).width,
+            width: getSize.width,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
@@ -28,7 +29,6 @@ class PreLoginScreen extends GetView<PreLoginController> {
                   Color.fromRGBO(0, 0, 0, 0.9),
                   Color.fromRGBO(0, 0, 0, .7),
                   Color.fromRGBO(0, 0, 0, .1),
-
                 ],
               ),
             ),
@@ -46,7 +46,11 @@ class PreLoginScreen extends GetView<PreLoginController> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: getSize(context).width * .1,bottom: 30.0, right: getSize(context).width * .1,),
+                    padding: EdgeInsets.only(
+                      left: getSize.width * .1,
+                      bottom: 30.0,
+                      right: getSize.width * .1,
+                    ),
                     child: Button(
                       onPressedFunction: () => controller.goLogin(),
                       textBtn: controller.textBtnLogin.value,
@@ -54,7 +58,11 @@ class PreLoginScreen extends GetView<PreLoginController> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: getSize(context).width * .1,bottom: 50.0, right: getSize(context).width * .1,),
+                    padding: EdgeInsets.only(
+                      left: getSize.width * .1,
+                      bottom: 50.0,
+                      right: getSize.width * .1,
+                    ),
                     child: Button(
                       onPressedFunction: () => controller.goSignUp(),
                       textBtn: controller.textBtnSignUp.value,
