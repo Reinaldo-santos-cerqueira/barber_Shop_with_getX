@@ -8,6 +8,7 @@ class GetSize {
   double getHeightWithoutAppBar(context){
     double screenHeight = MediaQuery.of(context).size.height;
     double appBarHeight = AppBar().preferredSize.height;
-    return screenHeight - appBarHeight;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+    return screenHeight - appBarHeight - statusBarHeight;
   }
 }
