@@ -37,7 +37,7 @@ class _InputState extends State<Input> {
 
   @override
   Widget build(BuildContext context) {
-    var getSize =  GetSize().sizeScreen(context);
+    var getSize = GetSize().sizeScreen(context);
     return Container(
       width: getSize.width,
       height: 50,
@@ -64,15 +64,26 @@ class _InputState extends State<Input> {
                     hintStyle: const TextStyle(
                       color: ColorsProject.primaryColor,
                     )),
+                style: const TextStyle(color: ColorsProject.primaryColor),
               ),
             ),
             const SizedBox(width: 10),
             widget.passwordInput == true
                 ? (obscureText == true
-                    ? const Icon(Icons.visibility_off,
-                        color: ColorsProject.primaryColor)
-                    : const Icon(Icons.visibility,
-                        color: ColorsProject.primaryColor))
+                    ? IconButton(
+                        onPressed: () {
+                          changeObscureText();
+                        },
+                        icon: const Icon(Icons.visibility_off,
+                            color: ColorsProject.primaryColor),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          changeObscureText();
+                        },
+                        icon: const Icon(Icons.visibility,
+                            color: ColorsProject.primaryColor),
+                      ))
                 : Container()
           ],
         ),

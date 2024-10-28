@@ -1,4 +1,5 @@
 import 'package:app_barber_shop/utils/translate_function.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
@@ -8,6 +9,8 @@ class LoginController extends GetxController {
   final textBtnClickMe = "Clique aqui".obs;
   final placeHolderEmail = "Digite seu email".obs;
   final placeHolderPassword = "Digite seu senha".obs;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final textOr = "or".obs;
   final seePassword = false.obs;
 
