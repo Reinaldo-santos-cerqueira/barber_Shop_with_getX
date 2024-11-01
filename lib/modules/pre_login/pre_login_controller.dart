@@ -17,6 +17,6 @@ class PreLoginController extends GetxController {
   }
 
   void goSignUp() {
-    Get.toNamed('/signUp');
+    Get.toNamed('/signup');
   }
 }

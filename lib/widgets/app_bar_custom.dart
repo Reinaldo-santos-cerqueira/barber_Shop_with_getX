@@ -10,7 +10,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: const IconBack(),
-      title: Text("$title!"),
+      title: Text(title ?? ""),
     );
   }
   @override

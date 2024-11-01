@@ -6,7 +6,7 @@ import '../application/theme/colors_project.dart';
 class Input extends StatefulWidget {
   final String textHint;
   final TextEditingController controller;
-  final IconData icon;
+  final Widget icon;
   final bool passwordInput;
 
   const Input(
@@ -52,7 +52,7 @@ class _InputState extends State<Input> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(widget.icon, color: ColorsProject.primaryColor),
+            widget.icon,
             const SizedBox(width: 10),
             Expanded(
               child: TextFormField(

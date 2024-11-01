@@ -6,6 +6,7 @@ import 'package:app_barber_shop/widgets/button.dart';
 import 'package:app_barber_shop/widgets/input.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icon.dart';
 
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
@@ -29,7 +30,7 @@ class LoginScreen extends GetView<LoginController> {
               ),
               child: IntrinsicHeight(
                 child: SafeArea(
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -45,7 +46,7 @@ class LoginScreen extends GetView<LoginController> {
                         Input(
                           textHint: controller.placeHolderEmail.value,
                           controller: controller.emailController,
-                          icon: Icons.email,
+                          icon: const Icon(Icons.alternate_email, color: ColorsProject.primaryColor,),
                           passwordInput: false,
                         ),
                         const SizedBox(
@@ -54,7 +55,7 @@ class LoginScreen extends GetView<LoginController> {
                         Input(
                           textHint: controller.placeHolderPassword.value,
                           controller: controller.passwordController,
-                          icon: Icons.lock_outline,
+                          icon: const LineIcon.lock(color: ColorsProject.primaryColor,),
                           passwordInput: true,
                         ),
                         Padding(
@@ -105,7 +106,6 @@ class LoginScreen extends GetView<LoginController> {
                           textBtn: controller.textBtnLogin.value.toUpperCase(),
                           primaryButton: true,
                           onPressedFunction: () {
-                            print(123);
                           },
                         ),
                         const SizedBox(height: 20),
@@ -139,7 +139,6 @@ class LoginScreen extends GetView<LoginController> {
                         Button(
                           textBtn: controller.textBtnSignUp.value.toUpperCase(),
                           onPressedFunction: () {
-                            print(123);
                           },
                         ),
                         const SizedBox(height: 20),
