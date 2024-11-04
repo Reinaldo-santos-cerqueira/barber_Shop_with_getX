@@ -8,13 +8,16 @@ class Input extends StatefulWidget {
   final TextEditingController controller;
   final Widget icon;
   final bool passwordInput;
+  final FormFieldValidator<String>? validator;
 
-  const Input(
-      {super.key,
-      required this.textHint,
-      required this.controller,
-      required this.icon,
-      required this.passwordInput});
+  const Input({
+    super.key,
+    required this.textHint,
+    required this.controller,
+    required this.icon,
+    required this.passwordInput,
+    required this.validator,
+  });
 
   @override
   State<Input> createState() => _InputState();
@@ -40,7 +43,6 @@ class _InputState extends State<Input> {
     var getSize = GetSize().sizeScreen(context);
     return Container(
       width: getSize.width,
-      height: 50,
       decoration: const BoxDecoration(
         color: ColorsProject.bgInput,
         borderRadius: BorderRadius.all(
@@ -48,15 +50,18 @@ class _InputState extends State<Input> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             widget.icon,
             const SizedBox(width: 10),
             Expanded(
               child: TextFormField(
+                validator: widget.validator,
                 controller: widget.controller,
+                maxLines: 1,
                 obscureText: obscureText,
                 decoration: InputDecoration(
                     border: InputBorder.none,
