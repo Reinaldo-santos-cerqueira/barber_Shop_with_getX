@@ -3,6 +3,7 @@ import 'package:app_barber_shop/modules/login/login_module.dart';
 import 'package:app_barber_shop/modules/pre_login/pre_login_module.dart';
 import 'package:app_barber_shop/modules/signup/signup_module.dart';
 import 'package:app_barber_shop/modules/splash/splash_module.dart';
+import 'package:app_barber_shop/services/firebase/messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,6 +16,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await MessagingFirebase().initNotification();
   runApp(const MyApp());
 }
 
