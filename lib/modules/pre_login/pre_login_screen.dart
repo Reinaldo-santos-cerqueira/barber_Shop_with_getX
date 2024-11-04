@@ -55,6 +55,7 @@ class PreLoginScreen extends GetView<PreLoginController> {
                       onPressedFunction: () => controller.goLogin(),
                       textBtn: controller.textBtnLogin.value,
                       primaryButton: true,
+                      loading: RxBool(false).obs,
                     ),
                   ),
                   Padding(
@@ -66,6 +67,7 @@ class PreLoginScreen extends GetView<PreLoginController> {
                     child: Button(
                       onPressedFunction: () => controller.goSignUp(),
                       textBtn: controller.textBtnSignUp.value,
+                      loading: RxBool(false).obs,
                     ),
                   )
                 ],
