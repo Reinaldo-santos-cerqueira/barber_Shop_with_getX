@@ -4,25 +4,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserService {
-  Future<void> create(UserModel user) async {
+  Future<String?> create(UserModel user, UserCredential? userCredential) async {
+    String? imageUrl = "";
+    if (userCredential != null) {
+      String uid = userCredential.user!.uid;
+
+      if (user.photo != null) {
+        imageUrl = await ImageService().uploadImage(user, uid);
+      }
+      DocumentReference docRef =
+          await FirebaseFirestore.instance.collection('users').add({
+        'name': user.name,
+        'cpf': user.cpf,
+        'email': user.email,
+        'imagem': imageUrl,
+        'created_at': Timestamp.now(),
+      });
+
+      return docRef.id;
+    }
+    return null;
+  }
+
+  // Future<void> delete() {}
+
+  Future<UserCredential?> createUserCredential(UserModel user) async {
     UserCredential userCredential =
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: user.email,
       password: user.password,
     );
-
-    String imageUrl = "";
-    String uid = userCredential.user!.uid;
-
-    // if (user.photo.isNotEmpty) {
-    //   imageUrl = await ImageService().download(user, uid);
-    // }
-    await FirebaseFirestore.instance.collection('users').doc(uid).set({
-      'name': user.name,
-      'cpf': user.cpf,
-      'email': user.email,
-      'imagem': user.photo,
-      'created_at': Timestamp.now(),
-    });
+    return userCredential;
   }
 }
