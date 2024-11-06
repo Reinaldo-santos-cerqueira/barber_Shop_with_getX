@@ -1,9 +1,11 @@
+import 'dart:io';
+
 class UserModel {
   String name;
   String cpf;
   String password;
   String email;
-  String photo;
+  File? photo;
 
   UserModel({
     required this.name,
