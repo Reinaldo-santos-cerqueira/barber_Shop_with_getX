@@ -124,7 +124,7 @@ class LoginScreen extends GetView<LoginController> {
                               onPressedFunction: () {
                                 controller.login();
                               },
-                              loading: controller.loadingButton.obs,
+                              loading: controller.loadingButton,
                             );
                           }),
                           const SizedBox(height: 20),
@@ -162,7 +162,7 @@ class LoginScreen extends GetView<LoginController> {
                               onPressedFunction: () {
                                 controller.goSignUp();
                               },
-                              loading: Rx<RxBool>(false.obs),
+                              loading: false.obs,
                             );
                           }),
                           const SizedBox(height: 20),
