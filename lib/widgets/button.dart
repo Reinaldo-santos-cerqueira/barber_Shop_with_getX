@@ -8,7 +8,7 @@ class Button extends StatelessWidget {
   final bool? primaryButton;
   final String textBtn;
   final Function onPressedFunction;
-  final Rx<RxBool> loading;
+  final RxBool loading;
 
   const Button({
     super.key,
@@ -21,43 +21,43 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var getSize = GetSize().sizeScreen(context);
-    return SizedBox(
-      width: getSize.width,
-      height: 50.0,
-      child: ElevatedButton(
-        onPressed: () {
-          onPressedFunction();
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryButton == true
-              ? ColorsProject.primaryColor
-              : Colors.transparent,
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(color: ColorsProject.primaryColor),
-            borderRadius: BorderRadius.circular(10),
+    return Obx(() {
+      return SizedBox(
+        width: getSize.width,
+        height: 50.0,
+        child: ElevatedButton(
+          onPressed: loading == true.obs ? () {} : () => onPressedFunction(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryButton == true
+                ? ColorsProject.primaryColor
+                : Colors.transparent,
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(color: ColorsProject.primaryColor),
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
-        ),
-        child: loading.value.value == true
-            ? Container(
-                width: 24,
-                height: 24,
-                padding: const EdgeInsets.all(2.0),
-                child: const CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 3,
+          child: loading == true.obs
+              ? Container(
+                  width: 24,
+                  height: 24,
+                  padding: const EdgeInsets.all(2.0),
+                  child: const CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 3,
+                  ),
+                )
+              : Text(
+                  textBtn.toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: primaryButton == true
+                          ? Colors.black
+                          : ColorsProject.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 5),
                 ),
-              )
-            : Text(
-                textBtn.toUpperCase(),
-                style: TextStyle(
-                    fontSize: 24,
-                    color: primaryButton == true
-                        ? Colors.black
-                        : ColorsProject.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 5),
-              ),
-      ),
-    );
+        ),
+      );
+    });
   }
 }
