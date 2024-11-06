@@ -145,7 +145,7 @@ class SignupController extends GetxController {
           textColor: Colors.white,
           backgroundColor: ColorsProject.bgColor,
           confirmBtnColor: Colors.transparent);
-      await deleteUser(user.email, user.password, idUsers);
+      await UserService().deleteUser(user.email, user.password, idUsers);
     } catch (e) {
       print(e);
       QuickAlert.show(
@@ -157,7 +157,7 @@ class SignupController extends GetxController {
           titleColor: Colors.white,
           textColor: Colors.white,
           confirmBtnColor: Colors.transparent);
-      await deleteUser(user.email, user.password, idUsers);
+      await UserService().deleteUser(user.email, user.password, idUsers);
     } finally {
       loadingButton(false);
     }
@@ -183,19 +183,5 @@ class SignupController extends GetxController {
         break;
     }
     return message;
-  }
-}
-
-Future<void> deleteUser(String email, String password, String? id) async {
-  User? user = FirebaseAuth.instance.currentUser;
-  AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
-  try {
-    await user?.reauthenticateWithCredential(credential);
-    if (id != null) {
-      await FirebaseFirestore.instance.collection('users').doc(id).delete();
-    }
-    await user?.delete();
-  } on FirebaseAuthException catch (e) {
-    print("Erro ao excluir usuário: $e");
   }
 }
