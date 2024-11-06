@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:app_barber_shop/application/theme/colors_project.dart';
 import 'package:app_barber_shop/models/user_model.dart';
 import 'package:app_barber_shop/services/firebase/store/user_service.dart';
 import 'package:app_barber_shop/utils/translate_function.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -82,32 +82,47 @@ class SignupController extends GetxController {
 
   signup(context) async {
     loadingButton(true);
-    try {
-      if (!formKey.currentState!.validate()) {
-        loadingScreen(false);
-        return;
-      }
-      UserModel user = UserModel(
-        name: nameController.text,
-        cpf: cpfController.text,
-        password: passwordController.text,
-        email: emailController.text,
-        photo: imagePicked.value!.path,
-      );
-      await UserService().create(user);
+    UserCredential? userCredential;
+    String? idUsers;
+    if (!formKey.currentState!.validate()) {
+      loadingButton(false);
+      return;
+    }
+    if (imagePicked.value == null) {
+      loadingButton(false);
       QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        backgroundColor: ColorsProject.bgColor,
-        titleColor: Colors.white,
+          context: context,
+          type: QuickAlertType.error,
+          title: 'Oops...',
+          text: await translateFunction("Selecione uma foto"),
+          titleColor: Colors.white,
+          textColor: Colors.white,
+          backgroundColor: ColorsProject.bgColor,
+          confirmBtnColor: Colors.transparent);
+      return;
+    }
+    UserModel user = UserModel(
+      name: nameController.text,
+      cpf: cpfController.text,
+      password: passwordController.text,
+      email: emailController.text,
+      photo: imagePicked.value,
+    );
+    try {
+      userCredential = await UserService().createUserCredential(user);
+      idUsers = await UserService().create(user, userCredential);
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          backgroundColor: ColorsProject.bgColor,
+          titleColor: Colors.white,
           textColor: Colors.white,
           confirmBtnColor: Colors.transparent,
-        text: await translateFunction('Criado com sucesso!'),
-        onConfirmBtnTap: () {
-          Get.back();
-          Get.offAllNamed("/login");
-        }
-      );
+          text: await translateFunction('Criado com sucesso!'),
+          onConfirmBtnTap: () {
+            Get.back();
+            Get.offAllNamed("/login");
+          });
     } on FirebaseAuthException catch (e) {
       String message = _handleAuthError(e);
       QuickAlert.show(
@@ -120,6 +135,7 @@ class SignupController extends GetxController {
           textColor: Colors.white,
           confirmBtnColor: Colors.transparent);
     } on FirebaseException catch (e) {
+      print(e);
       QuickAlert.show(
           context: context,
           type: QuickAlertType.error,
@@ -129,7 +145,9 @@ class SignupController extends GetxController {
           textColor: Colors.white,
           backgroundColor: ColorsProject.bgColor,
           confirmBtnColor: Colors.transparent);
+      await deleteUser(user.email, user.password, idUsers);
     } catch (e) {
+      print(e);
       QuickAlert.show(
           context: context,
           type: QuickAlertType.error,
@@ -139,6 +157,7 @@ class SignupController extends GetxController {
           titleColor: Colors.white,
           textColor: Colors.white,
           confirmBtnColor: Colors.transparent);
+      await deleteUser(user.email, user.password, idUsers);
     } finally {
       loadingButton(false);
     }
@@ -164,5 +183,19 @@ class SignupController extends GetxController {
         break;
     }
     return message;
+  }
+}
+
+Future<void> deleteUser(String email, String password, String? id) async {
+  User? user = FirebaseAuth.instance.currentUser;
+  AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+  try {
+    await user?.reauthenticateWithCredential(credential);
+    if (id != null) {
+      await FirebaseFirestore.instance.collection('users').doc(id).delete();
+    }
+    await user?.delete();
+  } on FirebaseAuthException catch (e) {
+    print("Erro ao excluir usuário: $e");
   }
 }

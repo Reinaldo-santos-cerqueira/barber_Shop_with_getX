@@ -180,7 +180,7 @@ class SignUpScreen extends GetView<SignupController> {
                                         print('signup');
                                         await controller.signup(context);
                                       },
-                                      loading: controller.loadingButton.obs,
+                                      loading: controller.loadingButton,
                                     );
                                   }),
                                   const SizedBox(height: 20),
@@ -341,7 +341,7 @@ class SignUpScreen extends GetView<SignupController> {
                                   onPressedFunction: () async {
                                     await controller.signup(context);
                                   },
-                                  loading: controller.loadingButton.obs,
+                                  loading: controller.loadingButton,
                                 ),
                                 const SizedBox(height: 20),
                               ],
