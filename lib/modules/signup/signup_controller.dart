@@ -110,6 +110,20 @@ class SignupController extends GetxController {
     );
     try {
       userCredential = await UserService().createUserCredential(user);
+      QuerySnapshot userReturn = await UserService().getUsersByCpf(user.cpf);
+      if (userReturn.docs.isNotEmpty) {
+        QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            title: 'Oops...',
+            text: await translateFunction("Cpf já cadastrado"),
+            backgroundColor: ColorsProject.bgColor,
+            titleColor: Colors.white,
+            textColor: Colors.white,
+            confirmBtnColor: Colors.transparent);
+        await UserService().deleteUser(user.email, user.password, idUsers);
+        return;
+      }
       idUsers = await UserService().create(user, userCredential);
       QuickAlert.show(
           context: context,
