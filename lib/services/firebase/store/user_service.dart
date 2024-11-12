@@ -1,4 +1,6 @@
 import 'package:app_barber_shop/models/user_model.dart';
+import 'package:app_barber_shop/services/firebase/messaging/firebase_messaging.dart';
+import 'package:app_barber_shop/utils/format_cpf.dart';
 // import 'package:app_barber_shop/services/firebase/store/image_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +18,7 @@ class UserService {
       DocumentReference docRef =
           await FirebaseFirestore.instance.collection('users').add({
         'name': user.name,
-        'cpf': user.cpf,
+        'cpf': formatCpf(user.cpf),
         'email': user.email,
         'imagem': imageUrl,
         'created_at': Timestamp.now(),
@@ -49,5 +51,38 @@ class UserService {
       password: user.password,
     );
     return userCredential;
+  }
+
+  Future<QuerySnapshot> getUsersByCpf(String cpf) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('cpf', isEqualTo: cpf)
+        .get();
+
+    return querySnapshot;
+  }
+
+  Future<QuerySnapshot> _updateTokenByEmail(String email,String? token) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      DocumentSnapshot document = querySnapshot.docs.first;
+      String docId = document.id;
+
+      await FirebaseFirestore.instance.collection('users').doc(docId).update({
+        'token': token,
+      });
+    }
+    return querySnapshot;
+  }
+
+  Future<void> signIn(String email, String password) async {
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    String? token = await MessagingFirebase().getToken();
+    await _updateTokenByEmail(email,token);
+
   }
 }
